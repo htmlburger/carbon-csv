@@ -36,7 +36,7 @@ $rows = $csv->to_array();
 
 This will parse the file and assign the result to the `$rows` variable.
 
-### Output
+Output:
 
 ```
 Array
@@ -57,6 +57,14 @@ Array
         )
 )
 
+```
+
+**MacOS encoding**
+
+When working with files created on a Mac device, it's advised to set the `auto_detect_line_endings` PHP variable to `1`.
+
+```
+ini_set( 'auto_detect_line_endings', 1 );
 ```
 
 ### Settings
