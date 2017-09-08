@@ -80,7 +80,7 @@ $rows = $csv->to_array();
 Please note, that skipping methods work with zero based indexes.
 ```
 
-<details><summary>skip_to_row</summary>
+#### skip_to_row
 
 To skip to a specific row, simply pass the index of the row.
 
@@ -133,9 +133,7 @@ Array
 
 ```
 
-</details>
-
-<details><summary>skip_to_column</summary>
+#### skip_to_column
 
 To skip to a specific column, simply pass the index of the column.
 
@@ -189,9 +187,7 @@ Array
 
 ```
 
-</details>
-
-<details><summary>skip_columns</summary>
+#### skip_columns
 
 To skip multiple columns, pass the indexes of those columns as an array.
 
@@ -245,9 +241,7 @@ Array
 
 ```
 
-</details>
-
-<details><summary>use_first_row_as_header</summary>
+#### use_first_row_as_header
 
 To use the first row from the CSV, simply call this method.
 
@@ -305,9 +299,7 @@ Array
 
 Since we're telling the parser to use the first row as a header row, it is assigned and skipped.
 
-</details>
-
-<details><summary>set_column_names</summary>
+#### set_column_names
 
 If you wish to use your own indexes for the columns, pass them using an array.
 
@@ -443,9 +435,7 @@ Array
 )
 ```
 
-</details>
-
-<details><summary>count</summary>
+#### count
 
 Get the total number of rows in the CSV file (please note, that this skips the empty rows);
 
@@ -458,6 +448,3 @@ $total_number_of_rows = $csv->count();
 ```
 
 `$total_number_of_rows = $csv->count()` is equivalent to `count($csv->to_array())`.
-
-</details>
-
