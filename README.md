@@ -31,6 +31,22 @@ use \Carbon_CSV\CsvFile as CsvFile;
 use \Carbon_CSV\Exception;
 
 $csv = new CsvFile('path-to-file/filename.csv');
+foreach ($csv as $row) {
+    /* do something with $row*/
+}
+```
+
+You can iterate the `$csv` object directly, or get all the rows using the `to_array` method.
+
+**Important:** the above approach is preferred, as it's less taxing - memory wise (it only works with one row at a time, and doesn't hold all of them, like `to_array` does).
+
+Here's an example with the `to_array` method.
+
+```php
+use \Carbon_CSV\CsvFile as CsvFile;
+use \Carbon_CSV\Exception;
+
+$csv = new CsvFile('path-to-file/filename.csv');
 $rows = $csv->to_array();
 ```
 
