@@ -36,7 +36,7 @@ $rows = $csv->to_array();
 
 This will parse the file and assign the result to the `$rows` variable.
 
-<details><summary>Output</summary>
+### Output
 
 ```
 Array
@@ -58,7 +58,6 @@ Array
 )
 
 ```
-</details>
 
 ### Settings
 
