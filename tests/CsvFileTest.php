@@ -269,4 +269,30 @@ class CsvParserTest extends TestCase {
 			],
 		], $csv->to_array() );
 	}
+
+	function test_map_partial_indecies_columns() {
+		$csv = new CsvFile(__DIR__ . '/../sample-data/info-no-head-row.csv');
+		$csv->set_column_names([
+			1 => 'lname',
+			3 => 'address',
+		]);
+		$this->assertEquals( [
+			[
+				'lname' => 'Doe',
+				'address' => 'Some Address 2, 12345, Country A',
+			],
+			[
+				'lname' => 'Dove',
+				'address' => 'That Address 3, 456, Country B',
+			],
+			[
+				'lname' => 'Smith',
+				'address' => '',
+			],
+			[
+				'lname' => 'Smith',
+				'address' => 'This Address 4, City, Country C',
+			],
+		], $csv->to_array() );
+	}
 }
