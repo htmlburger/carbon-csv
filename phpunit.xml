@@ -1,0 +1,12 @@
+<phpunit bootstrap="vendor/autoload.php"
+         colors="true"
+         verbose="true"
+         stopOnError="true"
+         stopOnFailure="true"
+         >
+  <testsuites>
+    <testsuite name="Carbon Csv Test Suite">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
