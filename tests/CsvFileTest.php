@@ -10,7 +10,6 @@ class CsvParserTest extends TestCase {
 		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv');
 		$this->assertEquals(5, count($csv));
 	}
-
 	/**
 	 * @expectedException \Carbon_CSV\Exception
 	 */
@@ -227,9 +226,6 @@ class CsvParserTest extends TestCase {
 		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv' );
 		$csv->skip_to_column('a');
 	}
-	/**
-	 * @skip
-	 */
 	function test_non_utf8_encoded_file() {
 		$csv = new CsvFile(__DIR__ . '/../sample-data/cp1251.csv');
 		$csv->set_encoding('cp-1251');
@@ -240,17 +236,11 @@ class CsvParserTest extends TestCase {
 		]);
 		$this->assertEquals( [
 			[
-				'last_name' => 'Doe'
+				'name' => 'Хоумър',
+				'age' => '31',
 			],
 		], $csv->to_array() );
 	}
+
 	
-	function test_bad_mappings_are_providing_sane_error() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/cp1251.csv');
-		$csv->use_first_row_as_header();
-		$csv->set_column_names([
-			0 => 'name',
-			1 => 'age',
-		]);
-	}
 }

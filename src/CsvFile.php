@@ -7,7 +7,7 @@ use \SplFileObject as File;
  * Enhanced CSV file object
  */
 class CsvFile extends File implements \Countable {
-	private $file_path;
+	const DEFAULT_ENCODING = 'utf-8';
 	private $encoding = 'utf-8';
 	private $is_head_row = false;
 	/**
@@ -20,17 +20,16 @@ class CsvFile extends File implements \Countable {
 	private $start_column = 0;
 	private $columns_to_skip = array();
 
-	function __construct($file_path, $delimiter = ',', $enclosure = '"', $escape = "\\") {
-		if (!file_exists($file_path)) {
-			throw new Exception("File $file_path does not exist. ");
+	function __construct($file, $delimiter = ',', $enclosure = '"', $escape = "\\") {
+		if (!file_exists($file)) {
+			throw new Exception("File $file does not exist. ");
 		}
 
-		if (filesize($file_path) === 0) {
+		if (filesize($file) === 0) {
 			throw new Exception("Empty file. ");
 		}
 
-		$this->file_path = $file_path;
-		parent::__construct($file_path, 'r');
+		parent::__construct($file, 'r+');
 		$this->setFlags(File::READ_CSV | File::READ_AHEAD | File::SKIP_EMPTY | File::DROP_NEW_LINE);
 		$this->setCsvControl($delimiter, $enclosure, $escape);
 	}
@@ -41,6 +40,10 @@ class CsvFile extends File implements \Countable {
 	 */
 	function count() {
 		return count($this->to_array());
+	}
+
+	function set_encoding($encoding) {
+		$this->encoding = $encoding;
 	}
 
 	public function to_array() {
@@ -93,7 +96,14 @@ class CsvFile extends File implements \Countable {
 		return $new_row;
 	}
 
+	function convert_to_default_encoding($val) {
+		return mb_convert_encoding($val, static::DEFAULT_ENCODING, $this->encoding);
+	}
+
 	private function format_row($row) {
+		if ($this->encoding !== static::DEFAULT_ENCODING) {
+			$row = array_map([$this, 'convert_to_default_encoding'], $row);
+		}
 		$row = array_combine(
 			$this->get_column_names($row),
 			$row
