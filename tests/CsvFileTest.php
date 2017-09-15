@@ -7,7 +7,7 @@ use \Carbon_CSV\Exception;
 
 class CsvParserTest extends TestCase {
 	function test_it_can_be_constructed_from_a_file() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
 		$this->assertEquals(5, count($csv));
 	}
 	/**
@@ -49,16 +49,16 @@ class CsvParserTest extends TestCase {
 	 * @expectedExceptionMessage Empty file.
 	 */
 	function test_it_throws_exception_when_constructed_with_an_empty_file() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/empty.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/empty.csv');
 	}
 
 	function test_without_setup() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info-no-head-row.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info-no-head-row.csv');
 		$this->assertEquals($this->get_expected_result_indexed(), $csv->to_array());
 	}
 
 	function test_iterator() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
 		$csv->skip_to_row(1);
 		$csv->set_column_names([
 			0 => 'first_name',
@@ -74,7 +74,7 @@ class CsvParserTest extends TestCase {
 	}
 
 	function test_setup_head_rows() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info-no-head-row.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info-no-head-row.csv');
 
 		$csv->set_column_names([
 			0 => 'first_name',
@@ -87,14 +87,14 @@ class CsvParserTest extends TestCase {
 	}
 
 	function test_with_head_row() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
 		$csv->use_first_row_as_header();
 
 		$this->assertEquals($this->get_expected_result_actual_columns(), $csv->to_array());
 	}
 
 	function test_with_head_row_and_custom_mappings() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
 		$csv->use_first_row_as_header();
 		$csv->set_column_names([
 			'First Name' => 'first_name',
@@ -107,7 +107,7 @@ class CsvParserTest extends TestCase {
 	}
 
 	function test_skip_rows() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
 		$csv->skip_to_row(1);
 		$csv->set_column_names([
 			0 => 'first_name',
@@ -120,7 +120,7 @@ class CsvParserTest extends TestCase {
 	}
 
 	function test_use_first_row_after_skipping_rows() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info-with-empty-rows-before-actual-content.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info-with-empty-rows-before-actual-content.csv');
 		$csv->skip_to_row(3);
 		$csv->use_first_row_as_header();
 
@@ -128,7 +128,7 @@ class CsvParserTest extends TestCase {
 	}
 
 	function test_separator_is_respected() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info-semicolon-separator.csv', ';');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info-semicolon-separator.csv', ';');
 		$csv->use_first_row_as_header();
 
 		$this->assertEquals([
@@ -140,7 +140,7 @@ class CsvParserTest extends TestCase {
 	}
 
 	function test_skip_to_column() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info-no-head-row.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info-no-head-row.csv');
 		$csv->skip_to_column(1);
 
 		$this->assertEquals( [
@@ -152,7 +152,7 @@ class CsvParserTest extends TestCase {
 	}
 
 	function test_skip_to_first_column_and_use_first_row_as_header() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
 		$csv->skip_to_column(1);
 		$csv->use_first_row_as_header();
 
@@ -167,13 +167,13 @@ class CsvParserTest extends TestCase {
 	function test_skip_to_column_outside_of_column_index_range() {
 		$this->expectException(Exception::class);
 
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv' );
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv' );
 		$csv->skip_to_column(999);
 		$csv->to_array();
 	}
 
 	function test_exclude_multiple_columns() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info-no-head-row.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info-no-head-row.csv');
 		$csv->skip_columns(array(0, 2, 3));
 
 		$this->assertEquals([
@@ -193,7 +193,7 @@ class CsvParserTest extends TestCase {
 	}
 
 	function test_custom_header_with_exclude_multiple_columns() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv' );
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv' );
 		$csv->use_first_row_as_header();
 		$csv->skip_columns(array(0, 2, 3));
 		$csv->set_column_names([
@@ -223,11 +223,11 @@ class CsvParserTest extends TestCase {
 		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Only numbers are allowed for skip to column.');
 
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv' );
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv' );
 		$csv->skip_to_column('a');
 	}
 	function test_non_utf8_encoded_file() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/cp1251.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/cp1251.csv');
 		$csv->set_encoding('cp-1251');
 		$csv->use_first_row_as_header();
 		$csv->set_column_names([
@@ -244,7 +244,7 @@ class CsvParserTest extends TestCase {
 
 	
 	function test_map_partial_columns() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
 		$csv->use_first_row_as_header();
 		$csv->set_column_names([
 			'Last Name' => 'lname',
@@ -271,7 +271,7 @@ class CsvParserTest extends TestCase {
 	}
 
 	function test_map_partial_indecies_columns() {
-		$csv = new CsvFile(__DIR__ . '/../sample-data/info-no-head-row.csv');
+		$csv = new CsvFile(__DIR__ . '/sample-data/info-no-head-row.csv');
 		$csv->set_column_names([
 			1 => 'lname',
 			3 => 'address',
