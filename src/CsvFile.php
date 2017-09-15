@@ -96,7 +96,7 @@ class CsvFile extends File implements \Countable {
 		return $new_row;
 	}
 
-	function convert_to_default_encoding($val) {
+	private function convert_to_default_encoding($val) {
 		return mb_convert_encoding($val, static::DEFAULT_ENCODING, $this->encoding);
 	}
 
@@ -104,8 +104,12 @@ class CsvFile extends File implements \Countable {
 		if ($this->encoding !== static::DEFAULT_ENCODING) {
 			$row = array_map([$this, 'convert_to_default_encoding'], $row);
 		}
+		$cols = $this->get_column_names($row);
+		if (count($cols) !== count($row)) {
+			$row = array_intersect_key($row, $cols);
+		}
 		$row = array_combine(
-			$this->get_column_names($row),
+			$cols,
 			$row
 		);
 
@@ -136,8 +140,12 @@ class CsvFile extends File implements \Countable {
 		if (empty($this->column_names)) {
 			$this->column_names = $mapping;
 		} else {
+			$mapping_indecies = array_flip($this->column_names);
+			if (count($mapping_indecies) !== count($mapping)) {
+				$mapping_indecies = array_intersect_key($mapping_indecies, $mapping);
+			}
 			$this->column_names = array_combine(
-				array_flip($this->column_names),
+				$mapping_indecies,
 				$mapping
 			);
 		}
