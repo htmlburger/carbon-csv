@@ -141,9 +141,18 @@ class CsvFile extends File implements \Countable {
 			$this->column_names = $mapping;
 		} else {
 			$mapping_indecies = array_flip($this->column_names);
+
+			// User code wants to map part of the columns
 			if (count($mapping_indecies) !== count($mapping)) {
 				$mapping_indecies = array_intersect_key($mapping_indecies, $mapping);
 			}
+
+			// some of the columns that the user code wants to map are not found
+			if (count($mapping_indecies) !== count($mapping)) {
+				$bad_cols = array_diff_key($mapping, $mapping_indecies);
+				throw new Exception("The following column(s) are not present in the source file: " . implode(', ', $bad_cols));
+			}
+
 			$this->column_names = array_combine(
 				$mapping_indecies,
 				$mapping

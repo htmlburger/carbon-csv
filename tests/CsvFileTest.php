@@ -242,7 +242,17 @@ class CsvParserTest extends TestCase {
 		], $csv->to_array() );
 	}
 
-	
+	function test_missing_column_causes_exception() {
+		$this->expectException(Exception::class);
+
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
+		$csv->use_first_row_as_header();
+		$csv->set_column_names([
+			'Last Name Typo' => 'lname',
+			'Address' => 'address',
+		]);
+	}
+
 	function test_map_partial_columns() {
 		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
 		$csv->use_first_row_as_header();
