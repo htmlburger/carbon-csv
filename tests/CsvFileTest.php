@@ -227,4 +227,30 @@ class CsvParserTest extends TestCase {
 		$csv = new CsvFile(__DIR__ . '/../sample-data/info.csv' );
 		$csv->skip_to_column('a');
 	}
+	/**
+	 * @skip
+	 */
+	function test_non_utf8_encoded_file() {
+		$csv = new CsvFile(__DIR__ . '/../sample-data/cp1251.csv');
+		$csv->set_encoding('cp-1251');
+		$csv->use_first_row_as_header();
+		$csv->set_column_names([
+			'Име' => 'name',
+			'Възраст' => 'age',
+		]);
+		$this->assertEquals( [
+			[
+				'last_name' => 'Doe'
+			],
+		], $csv->to_array() );
+	}
+	
+	function test_bad_mappings_are_providing_sane_error() {
+		$csv = new CsvFile(__DIR__ . '/../sample-data/cp1251.csv');
+		$csv->use_first_row_as_header();
+		$csv->set_column_names([
+			0 => 'name',
+			1 => 'age',
+		]);
+	}
 }
