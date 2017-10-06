@@ -106,6 +106,14 @@ class CsvParserTest extends TestCase {
 		$this->assertEquals($this->get_expected_result_custom_columns(), $csv->to_array());
 	}
 
+	function test_with_head_row_and_skip_to_initial_row() {
+		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
+		$csv->use_first_row_as_header();
+		$csv->skip_to_row(0);
+
+		$this->assertEquals($this->get_expected_result_actual_columns(), $csv->to_array());
+	}
+
 	function test_skip_rows() {
 		$csv = new CsvFile(__DIR__ . '/sample-data/info.csv');
 		$csv->skip_to_row(1);
