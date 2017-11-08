@@ -479,6 +479,24 @@ Array
 )
 ```
 
+#### `set_encoding($encoding)`
+
+Set the encoding of the CSV file.
+This is needed, so it can be properly converted to utf-8
+
+Example:
+
+```php
+use \Carbon_CSV\CsvFile as CsvFile;
+use \Carbon_CSV\Exception;
+
+$csv = new CsvFile('path-to-file/filename.csv');
+$csv->set_encoding('windows-1251');
+$total_number_of_rows = $csv->count();
+```
+
+This will 
+
 #### `count()`
 
 Get the total number of rows in the CSV file (this skips the empty rows):
