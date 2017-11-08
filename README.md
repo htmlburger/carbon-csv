@@ -495,8 +495,6 @@ $csv->set_encoding('windows-1251');
 $total_number_of_rows = $csv->count();
 ```
 
-This will 
-
 #### `count()`
 
 Get the total number of rows in the CSV file (this skips the empty rows):
