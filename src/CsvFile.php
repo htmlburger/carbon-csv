@@ -20,7 +20,7 @@ class CsvFile extends File implements \Countable {
 	private $start_column = 0;
 	private $columns_to_skip = array();
 
-	function __construct($file, $delimiter = ',', $enclosure = '"', $escape = "\\") {
+	function __construct($file, $delimiter = ',', $enclosure = '"', $escape = "\\", $flags = null) {
 		if (!file_exists($file)) {
 			throw new Exception("File $file does not exist. ");
 		}
@@ -29,8 +29,12 @@ class CsvFile extends File implements \Countable {
 			throw new Exception("Empty file. ");
 		}
 
+		if ( is_null( $flags ) ) {
+			$flags = File::READ_CSV | File::READ_AHEAD | File::SKIP_EMPTY | File::DROP_NEW_LINE;
+		}
+
 		parent::__construct($file, 'r+');
-		$this->setFlags(File::READ_CSV | File::READ_AHEAD | File::SKIP_EMPTY | File::DROP_NEW_LINE);
+		$this->setFlags($flags);
 		$this->setCsvControl($delimiter, $enclosure, $escape);
 	}
 
