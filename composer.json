@@ -4,7 +4,7 @@
     "description": "Simple CSV file parser",
 
     "require": {
-        "php": "^5.4.0 || ^7.0"
+        "php": "^5.5.0|^7.0|^8.0"
     },
 
     "autoload": {
@@ -16,6 +16,6 @@
     "require-dev": {
         "illuminate/support": "^5.4",
         "symfony/var-dumper": "^3.3",
-        "phpunit/phpunit": "^6.1"
+        "phpunit/phpunit": "^9.3"
     }
 }
